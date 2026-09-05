@@ -23,12 +23,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.holamundo.ui.theme.HolaMundoTheme
-// Asegúrate de tener estas importaciones adicionales en la parte superior:
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.res.painterResource
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            HolaMundoTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    InteractiveScreen(modifier = Modifier.padding(innerPadding))
+                }
+            }
+        }
+    }
+}
 
 @Composable
 fun InteractiveScreen(modifier: Modifier = Modifier) {
@@ -59,7 +72,7 @@ fun InteractiveScreen(modifier: Modifier = Modifier) {
                 painter = painterResource(id = R.drawable.perro),
                 contentDescription = "Foto de perrito",
                 modifier = Modifier
-                    .size(200.dp)
+                    .size(500.dp)
                     .padding(bottom = 16.dp)
             )
         }
