@@ -23,44 +23,55 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.holamundo.ui.theme.HolaMundoTheme
-
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            HolaMundoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    InteractiveScreen(modifier = Modifier.padding(innerPadding))
-                }
-            }
-        }
-    }
-}
+// Asegúrate de tener estas importaciones adicionales en la parte superior:
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.res.painterResource
 
 @Composable
 fun InteractiveScreen(modifier: Modifier = Modifier) {
-    var message by remember { mutableStateOf("¡Hola Mundo!") }
+    // Variable para controlar el estado
+    var isOriginalText by remember { mutableStateOf(true) }
 
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Texto principal
         Text(
-            text = message,
-            fontSize = 28.sp, // Tamaño reducido para que no se amontone
+            text = if (isOriginalText) "¡Hola Vicente!" else "¡El Botón Funciona mi Hermano!",
+            fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
-            color = Color(0xFF1E88E5),
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center, // Centra el texto si ocupa 2 líneas
-            lineHeight = 34.sp, // Le da espacio vertical entre líneas
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp)
+            color = Color(0xFFE53935), // Tu color rojo actual
+            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+            lineHeight = 36.sp,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
         )
 
+        // LA IMAGEN SOLO APARECE CUANDO SE PRESIONA EL BOTÓN
+        if (!isOriginalText) {
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Image(
+                painter = painterResource(id = R.drawable.perro),
+                contentDescription = "Foto de perrito",
+                modifier = Modifier
+                    .size(200.dp)
+                    .padding(bottom = 16.dp)
+            )
+        }
+
+        // Botón
         Button(onClick = {
-            message = "¡El Botón Funciona mi Hermano!"
+            isOriginalText = !isOriginalText
         }) {
-            Text(text = "Haz clic aquí", fontSize = 18.sp)
+            Text(
+                text = if (isOriginalText) "Haz clic aquí" else "Volver inicio",
+                fontSize = 18.sp
+            )
         }
     }
 }
